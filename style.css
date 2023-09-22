@@ -1,0 +1,152 @@
+html {
+    background-color: black;
+    color: white;
+    font-family: 'consolas', 'Times New Roman', serif;
+}
+
+h3 {
+    font-size: clamp(30px, 2.5vh, 3.5vh);
+    margin-left: 4vh;
+    text-shadow: salmon 0.3vh 0.3vh;
+}
+
+h4 {
+    font-size: clamp(20px, 1.5vh, 2.5vh);
+    padding-left: 1vh;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    flex: 1;
+    padding: 1vh;
+    border-bottom: 0.1vh solid white;
+    background-color: black;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    z-index: 9;
+}
+
+.header > h3 {
+    letter-spacing: 0.4vh;
+}
+
+.alert {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0vh;
+}
+
+.message {
+    font-weight: 500;
+    letter-spacing: 0.07vw;
+}
+
+.toggle {
+    cursor: pointer;
+    margin-right: 4vh;
+    height: clamp(25px, 3vh, 5vh);
+    width: clamp(45px, 6vh, 10vh);
+    font-size: clamp(15px, 2vh, 4vh);
+    font-weight: bold;  
+    background-color: pink;
+    border-bottom: 2px solid salmon;
+    border-right: 2px solid salmon;
+    border-radius: 0 0.5vh 0 0.5vh;
+}
+
+dialog {
+    border: 0.2vh solid pink;
+    border-radius: 1.5vh;
+    box-shadow: #0000002d 2px 2px 5px 2px;
+}
+
+dialog::backdrop {
+    background: rgba(36, 32, 48, 0.45);
+}
+
+form > * {
+    font-weight: bold;
+    padding: 1vh;
+    display: grid;
+    grid: repeat(1, 1fr) / repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+}
+
+form > * > label {
+    justify-self: center;
+}
+
+.form-title {
+    display: flex;
+    font-size: clamp(25px, 2vh, 3vh);
+    text-shadow: salmon 0.1vh 0.1vh;
+    justify-content: center;
+}
+
+.form-buttons > * {
+    cursor: pointer;
+    font-size: clamp(15px, 1.5vh, 2.5vh);
+    background-color: black;
+    color: white;
+    border-bottom: 2px solid salmon;
+    border-right: 2px solid salmon;
+    border-radius: 0 0.5vh 0 0.5vh;
+    margin: 0vh 2vh 0vh 2vh;
+    padding: 0.5vh 0.1vh 0.5vh 0.1vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-fields input {
+    border: 0.1vh solid pink;
+    box-shadow: black 0.1vh 0.1vh;
+    border-radius: 0.5vh;
+    height: 25px;
+    width: 180px;
+}
+
+input[type="checkbox"] {
+    height: 1.3rem;
+    width: 1.3rem;
+    justify-self: center;
+}
+
+.content {
+    flex: 2;
+}
+
+.grid-content {
+    display: grid;
+    grid: 1fr / repeat(auto-fit, minmax(20rem, 1fr));
+
+    gap: 2vh;
+    padding: 1vh;
+    margin: 1vh;
+}
+
+.item {
+    border-radius: 3vh;
+    background-color: #f1f1f1;
+    color: #1e1b4b;
+    padding: 0.5vh 2vh 0.5vh 2vh;
+
+    display: grid;
+    grid: repeat(4, 1fr) / repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+
+    border-bottom: 0.6vh solid salmon;
+}
+
+p {
+    font-family: monospace, 'consolas', 'Times New Roman';
+    font-size: clamp(15px, 1vh, 2vh);
+}
