@@ -1,30 +1,34 @@
 const myLibrary = [];
+const btn = document.querySelector('.toggle');
+const confirm = document.getElementById('add');
+const dialogs = document.querySelectorAll('dialog');
+const dialog = dialogs[1];
+const container = document.getElementById('grid-content');
 
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author; 
-    this.pages = pages;
-
-    read ? read = "Yes" : read = "No"; 
+    this.pages = pages; 
     this.read = read;
 }
 
-function addBookToLibrary() {
-    title = prompt("Name of book: ");
-    author = prompt("Author of book: ");
-    pages = prompt("Number of pages: ");
-    read = prompt("Have you read the book (y/n): ");
+// function addBookToLibrary() {
+//     title = prompt("Name of book: ");
+//     author = prompt("Author of book: ");
+//     pages = prompt("Number of pages: ");
+//     read = prompt("Have you read the book (y/n): ");
 
-    myLibrary.push(new Book(title, author, pages, read));
-}
+//     myLibrary.push(new Book(title, author, pages, read));
+// }
 
+// Create cards for library
 function DisplayBooks (books) {
     books.forEach((element, index) => {
         let grid = document.getElementById("grid-content");
 
         let bookItem = document.createElement("div");
         bookItem.classList.add("item");
-        bookItem.setAttribute("id", index + 1);
+        bookItem.setAttribute("id", index);
 
         let row1 = document.createElement("h4");
         row1.innerText = "Name";
@@ -44,6 +48,11 @@ function DisplayBooks (books) {
         let bookStatus = document.createElement("p");
         bookStatus.innerText = element.read;
 
+        let deleteButton = document.createElement("button");
+        deleteButton.setAttribute("id", index);
+        deleteButton.classList.add("remove");
+        deleteButton.textContent = "Remove";
+
         bookItem.appendChild(row1);
         bookItem.appendChild(bookName);
         bookItem.appendChild(row2);
@@ -52,51 +61,50 @@ function DisplayBooks (books) {
         bookItem.appendChild(bookPages);
         bookItem.appendChild(row4);
         bookItem.appendChild(bookStatus);
+        bookItem.appendChild(deleteButton);        
 
         grid.appendChild(bookItem);
     });
 }
 
-const btn = document.querySelector('.toggle');
-const confirm = document.getElementById('add');
-const dialogs = document.querySelectorAll('dialog');
-const dialog = dialogs[1];//document.getElementById('add-book');
-
 btn.addEventListener("click", () => {
   dialog.showModal();
 });
 
+// Add new book
 confirm.addEventListener("click", (event) => {
   event.preventDefault();
 
-  let form = document.querySelector('.form');
-  let name = document.getElementById('title');
-  let author = document.getElementById('author');
-  let pages = document.getElementById('pages');
-  let read = document.getElementById('read');
+  // Get form data
+  const formData = new FormData(document.querySelector('form'));
+  const name = formData.get("title");
+  const author = formData.get("author");
+  const pages = formData.get("pages");
+  let read = formData.get("read");
+  const alert = dialogs[0];
   let message = document.getElementsByClassName("message")[0];
-  let alert = dialogs[0];
   const isEmpty = str => !str.trim().length;
 
-  if (isEmpty(name.value) || isEmpty(author.value) || isEmpty(pages.value)) {
+  // Create book if form fields are filled
+  if (isEmpty(name) || isEmpty(author) || isEmpty(pages)) {
     message.textContent = "Please fill in all the fields";
     message.setAttribute("style", "color: red");
     alert.showModal();
     dialog.close();
   } else {
-    myLibrary.push(new Book(name.value, author.value, pages.value, read.checked));
+    read === null ? read = "No" : read = "Yes"; 
+    myLibrary.push(new Book(name, author, pages, read));
     DisplayBooks(myLibrary.slice(-1)); 
 
     message.textContent = "Book has been successfully added!";
     message.setAttribute("style", "color: lime");
     alert.showModal();
-
-    // use form element to get data
     
     dialog.close();
   }
 });
 
+// Allow user to click area out of bounds to close dialog
 dialogs.forEach( (element) => {
   element.addEventListener("click", e => {
     const dialogDimensions = element.getBoundingClientRect()
@@ -108,12 +116,32 @@ dialogs.forEach( (element) => {
     ) {
       element.close()
     }
-  })
+  });
 });
 
-myLibrary.push(new Book("The Alchemist", "Paulo Coelho", 400, true));
-myLibrary.push(new Book("Meditations", "Marcus Aurelius", 400, true));
-myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 200, true));
-myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 300, false));
-myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 100, true));
+// Handle removal of books
+container.addEventListener("click", e => {
+  if (e.target.classList.contains("remove")) {
+    let id = e.target.id;
+
+    console.log(myLibrary[id]);
+    myLibrary.splice(id, 1);
+    console.log("Removed item " + id);
+    document.getElementById(id).remove();
+    console.log("Removed card with id " + (id));
+
+    let cards = document.querySelectorAll('.item');
+    let rmvBtns = document.querySelectorAll('.remove');
+    for (let i = id; i < rmvBtns.length; i++) {
+      cards[i].setAttribute("id", i);
+      rmvBtns[i].setAttribute("id", i);
+    }
+  }
+});
+
+myLibrary.push(new Book("The Alchemist", "Paulo Coelho", 400, "Yes"));
+myLibrary.push(new Book("Meditations", "Marcus Aurelius", 400, "No"));
+myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 200, "Yes"));
+myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 300, "No"));
+myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 100, "Yes"));
 DisplayBooks(myLibrary);
