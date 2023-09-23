@@ -133,7 +133,7 @@ input[type="checkbox"] {
 
 .grid-content {
     display: grid;
-    grid: 1fr / repeat(auto-fit, minmax(30vh, 1fr));
+    grid: 1fr / repeat(auto-fit, minmax(250px, 1fr));
     overflow: hidden;
     gap: 2vh;
     padding: 1vh;
@@ -145,7 +145,7 @@ input[type="checkbox"] {
     background-color: #f1f1f1;
     color: #1e1b4b;
     padding: 0.5vh 2vh 0.5vh 2vh;
-    max-width: clamp(340px, 10vw, 20vw);
+    max-width: 340px;
     display: grid;
     grid: repeat(5, 1fr) / repeat(2, 1fr);
     justify-content: center;
@@ -154,24 +154,40 @@ input[type="checkbox"] {
     border-bottom: 0.6vh solid salmon;
 }
 
-.remove {
+.remove, .toggle-read{
     border: 0.05vh solid pink;
     border-radius: 3vh;
     height: clamp(40px, 5vh, 3vh);
     width: auto;
-    grid-area: 5 / 1 / 6 / 3;
+    grid-area: 5 / 2 / 6 / 3;
     font-size: var(--font-size);
     font-weight: bold;
     box-shadow: #d408082d 2px 2px 5px 2px;
-    transition: 0.3s background-color;
+    transition: 0.175s background-color;
+    margin: 1vh;
 }
 
 .remove:hover {
-    background-color: rgba(255, 0, 0, 0.795);
+    background-color: rgba(255, 136, 136, 0.795);
     box-shadow: #0000002d 2px 2px 5px 2px;
 }
 
 .remove:active {
+    color: white;
+    background-color: black;
+}
+
+.toggle-read {
+    grid-area: 5 / 1 / 6 / 2;
+    box-shadow: #0000002d 2px 2px 5px 2px;
+    border: 0.05vh solid rgb(183, 178, 255);
+}
+
+.toggle-read:hover {
+    background-color: rgb(209, 206, 255); 
+}
+
+.toggle-read:active {
     color: white;
     background-color: black;
 }
@@ -185,7 +201,8 @@ p {
 .item > p {
     overflow: auto;
     display: -webkit-box;
-    max-width: 12vw;
+    max-width: clamp(120px, 12vw, 16vw);
+    align-content: center;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }

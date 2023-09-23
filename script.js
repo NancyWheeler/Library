@@ -6,24 +6,16 @@ const dialog = dialogs[1];
 const container = document.getElementById('grid-content');
 
 function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author; 
-    this.pages = pages; 
-    this.read = read;
+  this.title = title;
+  this.author = author; 
+  this.pages = pages; 
+  this.read = read;
 }
-
-// function addBookToLibrary() {
-//     title = prompt("Name of book: ");
-//     author = prompt("Author of book: ");
-//     pages = prompt("Number of pages: ");
-//     read = prompt("Have you read the book (y/n): ");
-
-//     myLibrary.push(new Book(title, author, pages, read));
-// }
 
 // Create cards for library
 function DisplayBooks (books) {
-    books.forEach((element, index) => {
+    index =  myLibrary.length - 1;
+    books.forEach((element) => {
         let grid = document.getElementById("grid-content");
 
         let bookItem = document.createElement("div");
@@ -46,7 +38,13 @@ function DisplayBooks (books) {
         let bookPages = document.createElement("p");
         bookPages.innerText = element.pages;
         let bookStatus = document.createElement("p");
+        bookStatus.classList.add("read");
         bookStatus.innerText = element.read;
+
+        let toggleRead = document.createElement("button");
+        toggleRead.setAttribute("id", index);
+        toggleRead.classList.add("toggle-read");
+        toggleRead.textContent = "Read";
 
         let deleteButton = document.createElement("button");
         deleteButton.setAttribute("id", index);
@@ -61,6 +59,7 @@ function DisplayBooks (books) {
         bookItem.appendChild(bookPages);
         bookItem.appendChild(row4);
         bookItem.appendChild(bookStatus);
+        bookItem.appendChild(toggleRead);
         bookItem.appendChild(deleteButton);        
 
         grid.appendChild(bookItem);
@@ -94,7 +93,7 @@ confirm.addEventListener("click", (event) => {
   } else {
     read === null ? read = "No" : read = "Yes"; 
     myLibrary.push(new Book(name, author, pages, read));
-    DisplayBooks(myLibrary.slice(-1)); 
+    DisplayBooks(myLibrary.slice(-1));
 
     message.textContent = "Book has been successfully added!";
     message.setAttribute("style", "color: lime");
@@ -121,27 +120,34 @@ dialogs.forEach( (element) => {
 
 // Handle removal of books
 container.addEventListener("click", e => {
+  let id = parseInt(e.target.id);
+  let cards = document.querySelectorAll('.item');
+  let rmvBtns = document.querySelectorAll('.remove');
+  let tglReadBtns = document.querySelectorAll('.toggle-read');
+
   if (e.target.classList.contains("remove")) {
-    let id = e.target.id;
-
-    console.log(myLibrary[id]);
     myLibrary.splice(id, 1);
-    console.log("Removed item " + id);
-    document.getElementById(id).remove();
-    console.log("Removed card with id " + (id));
+    cards[id].remove();
 
-    let cards = document.querySelectorAll('.item');
-    let rmvBtns = document.querySelectorAll('.remove');
-    for (let i = id; i < rmvBtns.length; i++) {
-      cards[i].setAttribute("id", i);
-      rmvBtns[i].setAttribute("id", i);
+    for (let i = id+1; i < rmvBtns.length; i++) {
+      cards[i].setAttribute("id", i-1);
+      rmvBtns[i].setAttribute("id", i-1);
+      tglReadBtns[i].setAttribute("id", i-1);
     }
+  } else if (e.target.classList.contains("toggle-read")) {
+    myLibrary[id].read === "Yes" ? myLibrary[id].read = "No" : myLibrary[id].read = "Yes";
+    cards[id].getElementsByClassName("read")[0].textContent = myLibrary[id].read;
   }
 });
 
-myLibrary.push(new Book("The Alchemist", "Paulo Coelho", 400, "Yes"));
-myLibrary.push(new Book("Meditations", "Marcus Aurelius", 400, "No"));
-myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 200, "Yes"));
-myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 300, "No"));
-myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 100, "Yes"));
-DisplayBooks(myLibrary);
+// Placeholder books
+// myLibrary.push(new Book("The Alchemist", "Paulo Coelho", 400, "Yes"));
+// DisplayBooks(myLibrary.slice(-1));
+// myLibrary.push(new Book("Meditations", "Marcus Aurelius", 400, "No"));
+// DisplayBooks(myLibrary.slice(-1));
+// myLibrary.push(new Book("lorem ipsum", "lorem ipsum", 200, "Yes"));
+// DisplayBooks(myLibrary.slice(-1));
+// myLibrary.push(new Book("dolor sit", "lorem ipsum", 300, "No"));
+// DisplayBooks(myLibrary.slice(-1));
+// myLibrary.push(new Book("amet", "lorem ipsum", 100, "Yes"));
+// DisplayBooks(myLibrary.slice(-1));
