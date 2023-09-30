@@ -5,11 +5,13 @@ const dialogs = document.querySelectorAll('dialog');
 const dialog = dialogs[1];
 const container = document.getElementById('grid-content');
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author; 
-  this.pages = pages; 
-  this.read = read;
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author; 
+    this.pages = pages; 
+    this.read = read;
+  }
 }
 
 // Create cards for library
@@ -118,7 +120,7 @@ dialogs.forEach( (element) => {
   });
 });
 
-// Handle removal of books
+// Handle removal of books and toggling read status
 container.addEventListener("click", e => {
   let id = parseInt(e.target.id);
   let cards = document.querySelectorAll('.item');
